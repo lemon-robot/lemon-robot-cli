@@ -25,7 +25,7 @@ func Info(msg string) {
 }
 
 var logTypeList = [] string{"DEBG", "WARN", "ERRO", "INFO"}
-var logColorList = [] int{0, 33, 31, 34}
+var logColorList = [] int{0, 33, 31, 36}
 
 func log(msg string, logType int) {
 	//if strings.Contains(runtime.GOOS, "windows") {
