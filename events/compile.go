@@ -21,7 +21,7 @@ func CompileGroovy() {
 	// reset
 	groovyScriptDest = ""
 	logger.Info("Prepare to read your scripts")
-	readGroovyScripts(loc)
+	readGroovyScripts(loc + "/src/main/groovy")
 	logger.Info("Prepare to write dest script file")
 	writeGroovyScriptDest(loc+"/src/main/resources/__lemon_robot_task.groovy", groovyScriptDest)
 }
@@ -45,6 +45,7 @@ func readGroovyScripts(groovyPath string) {
 				file, _ := os.Open(filePath)
 				scriptContent, _ := ioutil.ReadAll(file)
 				groovyScriptDest += string(scriptContent) + "\n\n"
+				_ = file.Close()
 			}
 		}
 	}
@@ -58,11 +59,12 @@ func writeGroovyScriptDest(destPath string, script string) {
 			os.Exit(1)
 		}
 	}
-	_, errCreate := os.Create(destPath)
+	fileCreate, errCreate := os.Create(destPath)
 	if errCreate != nil {
 		logger.Error("Can not create the groovy dest file: "+destPath, errCreate)
 		os.Exit(2)
 	}
+	fileCreate.Close()
 	errWrite := ioutil.WriteFile(destPath, []byte(script), 0600)
 	if errWrite != nil {
 		logger.Error("Can not write the groovy dest file: "+destPath, errWrite)
