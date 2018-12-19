@@ -15,7 +15,7 @@ func CompileGroovy() {
 	logger.Info("Prepare to build groovy scripts")
 	loc, _ := os.Getwd()
 	if !isStandardPath(loc) {
-		logger.Error("The current directory is not a standard Lemon Robot Task project!")
+		logger.Error("The current directory is not a standard Lemon Robot Task project!", nil)
 		os.Exit(1)
 	}
 	// reset
@@ -54,18 +54,18 @@ func writeGroovyScriptDest(destPath string, script string) {
 	if io.PathExists(destPath) {
 		errRemove := os.Remove(destPath)
 		if errRemove != nil {
-			logger.Error("Can not remove exists dest file: " + destPath)
+			logger.Error("Can not remove exists dest file: "+destPath, errRemove)
 			os.Exit(1)
 		}
 	}
 	_, errCreate := os.Create(destPath)
 	if errCreate != nil {
-		logger.Error("Can not create the groovy dest file: " + destPath)
+		logger.Error("Can not create the groovy dest file: "+destPath, errCreate)
 		os.Exit(2)
 	}
 	errWrite := ioutil.WriteFile(destPath, []byte(script), 0600)
 	if errWrite != nil {
-		logger.Error("Can not write the groovy dest file: " + destPath)
+		logger.Error("Can not write the groovy dest file: "+destPath, errWrite)
 		os.Exit(3)
 	}
 	logger.Info("Write dest file complete! : " + destPath)

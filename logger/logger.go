@@ -15,8 +15,11 @@ func Warn(msg string) {
 	log(msg, 1)
 }
 
-func Error(msg string) {
+func Error(msg string, err error) {
 	log(msg, 2)
+	if err != nil {
+		log(err.Error(), 2)
+	}
 }
 
 func Info(msg string) {
