@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func Build() {
+func Build(params []string) {
 	buildPath, _ := os.Getwd()
 	logger.Info("Build path: " + buildPath)
 }

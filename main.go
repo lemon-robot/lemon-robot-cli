@@ -5,14 +5,17 @@ import (
 	"lemon-robot-cli/events"
 	"lemon-robot-cli/logger"
 	"os"
+	"reflect"
+	//"reflect"
 )
 
-var eventsMapping = map[string]func(){
-	"build":          events.Build,
-	"compile.groovy": events.CompileGroovy}
+var eventsMapping = map[string]interface{}{
+	"build":   events.Build,
+	"compile": events.Compile,
+	"clean":   events.Clean}
 
 func main() {
-	printLogo()
+	printBaseInfo()
 	if len(os.Args) <= 1 {
 		logger.Error("Please tell me what you want to do, for example:", nil)
 		logger.Error("lr build", nil)
@@ -25,14 +28,20 @@ func main() {
 		loc, _ := os.Getwd()
 		logger.Info("Current path: " + loc)
 		logger.Info("Invoke event: " + os.Args[1])
-		eventsMapping[os.Args[1]]()
+		event := reflect.ValueOf(eventsMapping[os.Args[1]])
+		paramsCount := len(os.Args) - 2
+		params := make([]string, paramsCount)
+		for i := 0; i < paramsCount; i++ {
+			params[i] = os.Args[i+2]
+		}
+		event.Call([]reflect.Value{reflect.ValueOf(params)})
 	} else {
 		logger.Error("The event not support: "+eventName, nil)
 	}
 
 }
 
-func printLogo() {
+func printBaseInfo() {
 	fmt.Println(`
  _                               ______       _                
 | |                             (_____ \     | |           _   

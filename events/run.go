@@ -1,7 +1,7 @@
 package events
 
-func Run() {
-	Build()
+func Run(params []string) {
+	Build(params)
 	// then run
 
 }

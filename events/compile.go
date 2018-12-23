@@ -10,6 +10,23 @@ import (
 
 var groovyScriptDest = ""
 
+const DestGroovyPath = "/src/main/resources/__lemon_robot_task.groovy"
+
+func Compile(params []string) {
+	DispatchParams()
+	CompileGroovy()
+}
+
+/**
+Dispatch the parameter information needed for the local runtime to the specified path
+*/
+func DispatchParams() {
+
+}
+
+/**
+Compile all groovy scripts and output them to the specified path
+*/
 func CompileGroovy() {
 	//遍历当前工程的src/main/groovy文件夹，把所有groovy文件拼接
 	logger.Info("Prepare to build groovy scripts")
@@ -18,17 +35,16 @@ func CompileGroovy() {
 		logger.Error("The current directory is not a standard Lemon Robot Task project!", nil)
 		os.Exit(1)
 	}
-	// reset
 	groovyScriptDest = ""
 	logger.Info("Prepare to read your scripts")
 	readGroovyScripts(loc + "/src/main/groovy")
 	logger.Info("Prepare to write dest script file")
-	writeGroovyScriptDest(loc+"/src/main/resources/__lemon_robot_task.groovy", groovyScriptDest)
+	writeGroovyScriptDest(loc+DestGroovyPath, groovyScriptDest)
 }
 
 /**
-判断是否为标准的LemonRobot任务目录
- */
+Check whether it is a standard LemonRobot task directory
+*/
 func isStandardPath(path string) bool {
 	return io.PathExists(path + "/pom.xml")
 }

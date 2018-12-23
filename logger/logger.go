@@ -24,13 +24,9 @@ func Info(msg string) {
 	log(msg, 3)
 }
 
-var logTypeList = [] string{"DEBG", "WARN", "ERRO", "INFO"}
-var logColorList = [] int{0, 33, 31, 36}
+var logTypeList = []string{"DEBG", "WARN", "ERRO", "INFO"}
+var logColorList = []int{0, 33, 31, 36}
 
 func log(msg string, logType int) {
-	//if strings.Contains(runtime.GOOS, "windows") {
-	//	fmt.Printf("[%s %s] %s\n", logTypeList[logType], date.GetCurrentTimeFormatedStr(), msg)
-	//} else {
 	fmt.Printf("%c[1;0;%dm[%s %s]%c[0m %s\n", 0x1B, logColorList[logType], logTypeList[logType], date.GetCurrentTimeFormatedStr(), 0x1B, msg)
-	//}
 }
