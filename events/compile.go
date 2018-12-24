@@ -11,24 +11,49 @@ import (
 var groovyScriptDest = ""
 
 const DestGroovyPath = "/src/main/resources/__lemon_robot_task.groovy"
+const DestParamsPath = "/src/main/resources/__lemon_robot_params/"
+const SourceParamsPath = "/params/"
+const ParamTagDefault = "default"
 
 func Compile(params []string) {
-	DispatchParams()
+	DispatchParams(params)
 	CompileGroovy()
 }
 
 /**
 Dispatch the parameter information needed for the local runtime to the specified path
 */
-func DispatchParams() {
+func DispatchParams(params []string) {
+	paramTag := GetParamTag(params)
+	logger.Info("Prepare to dispatch parameters, param tag: " + paramTag)
+	loc, _ := os.Getwd()
+	destFullPath := loc + DestParamsPath
+	if io.PathExists(destFullPath) {
+		CleanParams()
+	}
+	err := io.CopyDir(loc+SourceParamsPath+paramTag+"/", destFullPath)
+	if err != nil {
+		logger.Error("Copy Params folder error", err)
+		os.Exit(1)
+	}
+	logger.Info("Dispatch parameters complete! " + destFullPath)
+}
 
+func GetParamTag(params []string) string {
+	var paramTag string
+	if len(params) > 0 {
+		paramTag = params[0]
+	} else {
+		paramTag = ParamTagDefault
+	}
+	return paramTag
 }
 
 /**
 Compile all groovy scripts and output them to the specified path
 */
 func CompileGroovy() {
-	//遍历当前工程的src/main/groovy文件夹，把所有groovy文件拼接
+	// 遍历当前工程的src/main/groovy文件夹，把所有groovy文件拼接
 	logger.Info("Prepare to build groovy scripts")
 	loc, _ := os.Getwd()
 	if !isStandardPath(loc) {
