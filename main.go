@@ -11,6 +11,7 @@ import (
 
 var eventsMapping = map[string]interface{}{
 	"build":   events.Build,
+	"run":     events.Run,
 	"compile": events.Compile,
 	"clean":   events.Clean}
 
