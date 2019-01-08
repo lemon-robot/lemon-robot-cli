@@ -1,8 +1,8 @@
 package events
 
 import (
-	"lemon-robot-cli/logger"
-	"lemon-robot-cli/utils/io"
+	"lemon-robot-golang-commons/utils/io"
+	"lemon-robot-golang-commons/utils/logger"
 	"os"
 )
 

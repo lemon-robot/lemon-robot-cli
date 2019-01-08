@@ -1,8 +1,8 @@
 package events
 
 import (
-	"lemon-robot-cli/logger"
-	"lemon-robot-cli/utils/cmd"
+	"lemon-robot-golang-commons/utils/cmd"
+	"lemon-robot-golang-commons/utils/logger"
 )
 
 func Run(params []string) {
