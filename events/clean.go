@@ -1,8 +1,8 @@
 package events
 
 import (
-	"lemon-robot-golang-commons/utils/io"
-	"lemon-robot-golang-commons/utils/logger"
+	"lemon-robot-golang-commons/logger"
+	"lemon-robot-golang-commons/utils/lruio"
 	"os"
 )
 
@@ -25,7 +25,7 @@ func CleanParams() {
 func CleanGroovy() {
 	loc, _ := os.Getwd()
 	cleanPath := loc + DestGroovyPath
-	if io.PathExists(cleanPath) {
+	if lruio.PathExists(cleanPath) {
 		_ = os.Remove(cleanPath)
 		logger.Info("Clean file : " + cleanPath)
 	}

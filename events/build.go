@@ -1,9 +1,9 @@
 package events
 
 import (
-	"lemon-robot-golang-commons/utils/cmd"
-	"lemon-robot-golang-commons/utils/io"
-	"lemon-robot-golang-commons/utils/logger"
+	"lemon-robot-golang-commons/logger"
+	"lemon-robot-golang-commons/utils/lrucmd"
+	"lemon-robot-golang-commons/utils/lruio"
 	"os"
 )
 
@@ -14,7 +14,7 @@ func Build(params []string) {
 	} else {
 		// is standard task project
 		logger.Info("Building lemon robot task project, please wait...")
-		err := cmd.NoDisplayExec("mvn package")
+		err := lrucmd.NoDisplayExec("mvn package")
 		if err != nil {
 			logger.Error("An error occurred during the build task", err)
 			os.Exit(1)
@@ -24,5 +24,5 @@ func Build(params []string) {
 }
 
 func checkIsLRStandardProject(path string) bool {
-	return io.PathExists(path + "/" + "pom.xml")
+	return lruio.PathExists(path + "/" + "pom.xml")
 }

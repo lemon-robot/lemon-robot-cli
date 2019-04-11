@@ -2,8 +2,8 @@ package events
 
 import (
 	"io/ioutil"
-	"lemon-robot-golang-commons/utils/io"
-	"lemon-robot-golang-commons/utils/logger"
+	"lemon-robot-golang-commons/logger"
+	"lemon-robot-golang-commons/utils/lruio"
 	"os"
 	"strings"
 )
@@ -28,10 +28,10 @@ func DispatchParams(params []string) {
 	logger.Info("Prepare to dispatch parameters, param tag: " + paramTag)
 	loc, _ := os.Getwd()
 	destFullPath := loc + DestParamsPath
-	if io.PathExists(destFullPath) {
+	if lruio.PathExists(destFullPath) {
 		CleanParams()
 	}
-	err := io.CopyDir(loc+SourceParamsPath+paramTag+"/", destFullPath)
+	err := lruio.CopyDir(loc+SourceParamsPath+paramTag+"/", destFullPath)
 	if err != nil {
 		logger.Error("Copy Params folder error", err)
 		os.Exit(1)
@@ -71,7 +71,7 @@ func CompileGroovy() {
 Check whether it is a standard LemonRobot task directory
 */
 func isStandardPath(path string) bool {
-	return io.PathExists(path + "/pom.xml")
+	return lruio.PathExists(path + "/pom.xml")
 }
 
 func readGroovyScripts(groovyPath string) {
@@ -93,7 +93,7 @@ func readGroovyScripts(groovyPath string) {
 }
 
 func writeGroovyScriptDest(destPath string, script string) {
-	if io.PathExists(destPath) {
+	if lruio.PathExists(destPath) {
 		errRemove := os.Remove(destPath)
 		if errRemove != nil {
 			logger.Error("Can not remove exists dest file: "+destPath, errRemove)
